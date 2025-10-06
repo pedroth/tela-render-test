@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela raster</title>
+
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+            background-color: bisque;
+            overflow: hidden;
+        }
+
+        /* Loading overlay */
+        #loading {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading overlay -->
+    <div id="loading">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+</body>
+
+<script type="module">
+    const canvasDOM = document.createElement("canvas");
+    canvasDOM.width = 500;
+    canvasDOM.height = 500;
+    canvasDOM.style = "flex-grow: 1;";
+    const div = document.createElement("div");
+    div.style = "justify-content: center; align-items: center; height: 100vh; display: flex; margin:auto;";
+    div.appendChild(canvasDOM);
+    document.body.appendChild(div);
+
+    import {
+        Canvas,
+        Camera,
+        Mesh,
+        Vec3,
+        Vec2,
+        loop,
+        NaiveScene
+    } from "/node_modules/tela.js/src/index.js";
+
+    const canvas = Canvas.ofDOM(canvasDOM);
+
+    // scene
+    const scene = new NaiveScene();
+    const camera = new Camera({ distancePlane: 0.001 }).orbit(5, 0, 0);
+
+    // mouse handling
+    let mousedown = false;
+    let mouse = Vec2();
+
+    canvas.onMouseDown((x, y) => {
+        mousedown = true;
+        mouse = Vec2(x, y);
+    });
+
+    canvas.onMouseUp(() => {
+        mousedown = false;
+        mouse = Vec2();
+    });
+
+    canvas.onMouseMove((x, y) => {
+        const newMouse = Vec2(x, y);
+        if (!mousedown || newMouse.equals(mouse)) {
+            return;
+        }
+        const [dx, dy] = newMouse.sub(mouse).toArray();
+        camera.orbit((orbitCoord) =>
+            orbitCoord.add(
+                Vec3(
+                    0,
+                    -2 * Math.PI * (dx / canvas.width),
+                    -2 * Math.PI * (dy / canvas.height)
+                )
+            )
+        );
+        mouse = newMouse;
+    });
+
+    canvas.onMouseWheel(({ deltaY }) => {
+        camera.orbit((orbitCoord) => orbitCoord.add(Vec3(deltaY * 0.001, 0, 0)));
+    });
+
+    // Load mesh and texture
+    const meshObj = await fetch("/assets/burger.obj").then((r) => r.text());
+    let mesh = Mesh.readObj(meshObj, "mesh");
+    const meshBox = mesh.getBoundingBox();
+    const maxDiagInv = 2 / meshBox.diagonal.fold((e, x) => Math.max(e, x), Number.MIN_VALUE);
+    mesh = mesh
+        .mapVertices(v => v.sub(meshBox.center).scale(maxDiagInv))
+        .mapVertices(v => v.scale(1))
+        .mapVertices(v => Vec3(-v.z, -v.x, v.y))
+        .mapVertices(v => v.add(Vec3()))
+        .addTexture(await Canvas.ofUrl("/assets/burger.jpg"));
+        
+    scene.addList(mesh.asTriangles());
+    scene.rebuild();
+
+    // Remove loading screen once assets are ready
+    document.getElementById("loading").style.display = "none";
+
+    // play
+    loop(({ dt }) => {
+        camera
+            .reverseShot(scene, {
+                cullBackFaces: true,
+                bilinearTextures: false,
+                clipCameraPlane: true
+            })
+            .to(canvas)
+            .paint();
+        // set title of tab with fps
+        document.title = `FPS: ${(1 / dt).toFixed(2)}`;
+    }).play();
+</script>
+
+</html>
