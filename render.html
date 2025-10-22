@@ -124,7 +124,7 @@
         exposedCanvas = canvas.exposure();
     });
 
-    const meshObj = await fetch("/assets/burger.obj").then((r) => r.text());
+    const meshObj = await fetch("/assets/lucy.obj").then((r) => r.text());
     let mesh = Mesh.readObj(meshObj, "mesh");
     const meshBox = mesh.getBoundingBox();
     const maxDiagInv = 2 / meshBox.diagonal.fold((e, x) => Math.max(e, x), Number.MIN_VALUE);
@@ -134,7 +134,7 @@
         .mapVertices(v => Vec3(-v.z, -v.x, v.y))
         .mapVertices(v => v.add(Vec3()))
         .mapColors(() => Color.GRAY)
-        .addTexture(await Canvas.ofUrl("/assets/burger.jpg"))
+        // .addTexture(await Canvas.ofUrl("/assets/burger.jpg"))
         
     scene.addList(mesh.asTriangles());
     // scene.addList(mesh.asTriangles().map(t => {t.emissive = true; return t}));
@@ -150,6 +150,21 @@
             .positions(Vec3(3, 3, -1), Vec3(-3, 3, -1), Vec3(-3, -3, -1))
             .build()
     );
+
+    scene.add(
+        Triangle.builder()
+            .name("top-1")
+            .colors(Color.WHITE, Color.WHITE, Color.WHITE)
+            .positions(Vec3(-1.5, -1.5, 1), Vec3(1.5, -1.5, 1), Vec3(1.5, 1.5, 1))
+            .emissive(true)
+            .build(),
+        Triangle.builder()
+            .name("top-2")
+            .colors(Color.WHITE, Color.WHITE, Color.WHITE)
+            .positions(Vec3(1.5, 1.5, 1), Vec3(-1.5, 1.5, 1), Vec3(-1.5, -1.5, 1))
+            .emissive(true)
+            .build()
+    )
     scene.rebuild();
 
     let exposedCanvas = canvas.exposure();
@@ -173,7 +188,6 @@
     // Remove loading screen once assets are ready
     document.getElementById("loading").style.display = "none";
 
-
     // play
     loop(async ({ dt }) => {
         await camera
@@ -182,9 +196,9 @@
                 {
                     bounces: 10,
                     gamma: 0.5,
-                    isBiased: false,
-                    useCache: true,
-                    renderSkyBox
+                    isBiased: true,
+                    useCache: false,
+                    // renderSkyBox
                 })
             .to(exposedCanvas)
             .paint()
