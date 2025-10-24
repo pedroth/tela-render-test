@@ -155,13 +155,13 @@
         Triangle.builder()
             .name("top-1")
             .colors(Color.WHITE, Color.WHITE, Color.WHITE)
-            .positions(Vec3(-1.5, -1.5, 1), Vec3(1.5, -1.5, 1), Vec3(1.5, 1.5, 1))
+            .positions(Vec3(-0.5, -0.5, 1), Vec3(0.5, -0.5, 1), Vec3(0.5, 0.5, 1))
             .emissive(true)
             .build(),
         Triangle.builder()
             .name("top-2")
             .colors(Color.WHITE, Color.WHITE, Color.WHITE)
-            .positions(Vec3(1.5, 1.5, 1), Vec3(-1.5, 1.5, 1), Vec3(-1.5, -1.5, 1))
+            .positions(Vec3(0.5, 0.5, 1), Vec3(-0.5, 0.5, 1), Vec3(-0.5, -0.5, 1))
             .emissive(true)
             .build()
     )
@@ -198,6 +198,7 @@
                     gamma: 0.5,
                     isBiased: true,
                     useCache: false,
+                    samplesPerPxl: 25,
                     // renderSkyBox
                 })
             .to(exposedCanvas)
