@@ -61,8 +61,8 @@
 
 <script type="module">
     const canvasDOM = document.createElement("canvas");
-    canvasDOM.width = 640;
-    canvasDOM.height = 480;
+    canvasDOM.width = 640*2;
+    canvasDOM.height = 480*2;
     canvasDOM.style = "flex-grow: 1;";
     const div = document.createElement("div");
     div.style = "justify-content: center; align-items: center; height: 100vh; display: flex; margin:auto;";
@@ -131,7 +131,7 @@
         .mapVertices(v => v.scale(1))
         .mapVertices(v => Vec3(-v.z, -v.x, v.y))
         .mapVertices(v => v.add(Vec3()))
-        .addTexture(await Canvas.ofUrl("/assets/little_tokyo.png"));
+        .addTexture(await Canvas.ofUrl("/assets/little_tokyo.jpg"));
         
     scene.addList(mesh.asTriangles());
     scene.rebuild();
