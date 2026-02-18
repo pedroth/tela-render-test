@@ -124,7 +124,7 @@
         exposedCanvas = canvas.exposure();
     });
 
-    const meshObj = await fetch("/assets/lucy.obj").then((r) => r.text());
+    const meshObj = await fetch("/assets/moses.obj").then((r) => r.text());
     let mesh = Mesh.readObj(meshObj, "mesh");
     const meshBox = mesh.getBoundingBox();
     const maxDiagInv = 2 / meshBox.diagonal.fold((e, x) => Math.max(e, x), Number.MIN_VALUE);
@@ -134,7 +134,6 @@
         .mapVertices(v => Vec3(-v.z, -v.x, v.y))
         .mapVertices(v => v.add(Vec3()))
         .mapColors(() => Color.GRAY)
-        // .addTexture(await Canvas.ofUrl("/assets/burger.jpg"))
         
     scene.addList(mesh.asTriangles());
     // scene.addList(mesh.asTriangles().map(t => {t.emissive = true; return t}));
@@ -190,18 +189,18 @@
 
     // play
     loop(async ({ dt }) => {
-        await camera
-            .sceneShot(
+        (await camera
+            .parallelShot(
                 scene,
                 {
                     bounces: 10,
                     gamma: 0.5,
                     isBiased: true,
                     useCache: false,
-                    samplesPerPxl: 25,
+                    samplesPerPxl: 3,
                     // renderSkyBox
                 })
-            .to(exposedCanvas)
+            .to(exposedCanvas))
             .paint()
         // scene.debug({camera, canvas});
         // set title of tab with fps
