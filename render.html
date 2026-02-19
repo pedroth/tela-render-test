@@ -124,7 +124,7 @@
         exposedCanvas = canvas.exposure();
     });
 
-    const meshObj = await fetch("/assets/moses.obj").then((r) => r.text());
+    const meshObj = await fetch("/assets/moses_min.obj").then((r) => r.text());
     let mesh = Mesh.readObj(meshObj, "mesh");
     const meshBox = mesh.getBoundingBox();
     const maxDiagInv = 2 / meshBox.diagonal.fold((e, x) => Math.max(e, x), Number.MIN_VALUE);
