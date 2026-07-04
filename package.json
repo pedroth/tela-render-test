@@ -10,6 +10,6 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "tela.js": "^1.2.17"
+    "tela.js": "^1.2.41"
   }
 }

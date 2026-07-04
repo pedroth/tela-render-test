@@ -123,7 +123,7 @@
     })
 
     // Load svg
-    const svgPath = "stokes.svg"
+    const svgPath = "tiger.svg"
     const svg = parseSVG(await fetch(`/assets/${svgPath}`).then((x) => x.text()));
     const paths = svg.normalize().paths.flatMap((p) => p);
 

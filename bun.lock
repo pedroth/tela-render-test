@@ -5,7 +5,7 @@
     "": {
       "name": "tela-render",
       "dependencies": {
-        "tela.js": "^1.2.17",
+        "tela.js": "^1.2.41",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -142,8 +142,6 @@
 
     "picomatch": ["picomatch@4.0.3", "", {}, "sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q=="],
 
-    "pngjs": ["pngjs@7.0.0", "", {}, "sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow=="],
-
     "proc-log": ["proc-log@5.0.0", "", {}, "sha512-Azwzvl90HaF0aCz1JrDdXQykFakSSNPaPoiZ9fm5qJIMHioDZEi7OAdRwSm6rSoPtY3Qutnm3L7ogmg3dc+wbQ=="],
 
     "promise-retry": ["promise-retry@2.0.1", "", { "dependencies": { "err-code": "^2.0.2", "retry": "^0.12.0" } }, "sha512-y+WKFlBR8BGXnsNlIHFGPZmyDf3DFMoLhaflAnyZgV6rG6xu+JwesTo2Q9R6XwYmtmwAFCkAk3e35jEdoeh/3g=="],
@@ -178,7 +176,7 @@
 
     "tar": ["tar@7.5.1", "", { "dependencies": { "@isaacs/fs-minipass": "^4.0.0", "chownr": "^3.0.0", "minipass": "^7.1.2", "minizlib": "^3.1.0", "yallist": "^5.0.0" } }, "sha512-nlGpxf+hv0v7GkWBK2V9spgactGOp0qvfWRxUMjqHyzrt3SgwE48DIv/FhqPHJYLHpgW1opq3nERbz5Anq7n1g=="],
 
-    "tela.js": ["tela.js@1.2.17", "", { "dependencies": { "@kmamal/sdl": "^0.10.2", "pngjs": "^7.0.0" } }, "sha512-V4Dqn6RY8X/CBMvEq1jMcpXZm7WdjKTgh6rZODKGQmfS0lFqBy3NkvwucZmvpFNsGOlrX+KBi7I7Qlj9tRT32g=="],
+    "tela.js": ["tela.js@1.2.41", "", { "dependencies": { "@kmamal/sdl": "^0.10.2" } }, "sha512-lsh2lCQm4QT/+x4hTGfCMslfuJEZlqmrDRJYZZlWU9RWCBoP1pdsi8iAyJ/BoDsJbRb9X4bosjbe3ohvf5EpZA=="],
 
     "tinyglobby": ["tinyglobby@0.2.15", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.3" } }, "sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ=="],
 
